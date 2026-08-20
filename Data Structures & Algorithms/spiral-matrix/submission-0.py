@@ -1,0 +1,64 @@
+class Solution:
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        
+        res = []
+        
+        m = len(matrix)
+        n = len(matrix[0])
+
+        row_start = 0
+        row_end = m-1
+        col_start = 0
+        col_end = n-1
+
+        def is_terminal(rs, re, cs, ce):
+            return re < 0 or rs >= m or ce < 0 or cs >= n or (rs > re or cs > ce)
+
+        while True:
+
+            if is_terminal(row_start, row_end, col_start, col_end):
+                break
+
+            top_row = matrix[row_start][col_start: col_end + 1]
+            res.extend(top_row)
+            print(top_row)
+            print(row_start, row_end, col_start, col_end)
+            row_start += 1
+
+            if is_terminal(row_start, row_end, col_start, col_end):
+                break
+
+            right_col = []
+            for r in range(row_start, row_end+1):
+                right_col.append(matrix[r][col_end])
+            res.extend(right_col)
+            print(right_col)
+            print(row_start, row_end, col_start, col_end)
+            col_end -= 1
+
+            if is_terminal(row_start, row_end, col_start, col_end):
+                break
+
+            down_row = matrix[row_end][col_start: col_end + 1][::-1]
+            res.extend(down_row)
+            print(down_row)
+            print(row_start, row_end, col_start, col_end)
+            row_end -= 1
+
+            if is_terminal(row_start, row_end, col_start, col_end):
+                break
+
+            left_col = []
+            for r in range(row_start, row_end+1):
+                left_col.append(matrix[r][col_start])
+            left_col = left_col[::-1]
+            res.extend(left_col)
+            print(left_col)
+            print(row_start, row_end, col_start, col_end)
+            col_start += 1
+
+            if is_terminal(row_start, row_end, col_start, col_end):
+                break
+
+        return res
+
